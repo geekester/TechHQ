@@ -136,7 +136,9 @@
   ];
 
   const appleShortcuts = [
-    { name: "iCloud Photo Declutter", desc: "Shows photos taken on today's date exactly one year ago. Browse, select and delete the unnecessary ones to keep your library clean.", device: "iPhone", trigger: "Shortcut", category: "Daily", link: "https://www.icloud.com/shortcuts/79566ddf8f0449bb8d846f41a1ccdab6" },
+    { name: "🖼️ iCloud Photo Declutter", desc: "Shows photos taken on today's date exactly one year ago. Browse, select and delete the unnecessary ones to keep your library clean.", device: "iPhone", trigger: "Shortcut", categories: ["Media"], link: "https://www.icloud.com/shortcuts/79566ddf8f0449bb8d846f41a1ccdab6" },
+    { name: "🔋 Charge Time Estimator", desc: "Tells you exactly how long your device will take to fully charge. Set it as an automation to trigger whenever you plug in — no more guessing.", device: "iPhone", trigger: "Automation", categories: ["Daily", "Productivity"], link: "https://www.icloud.com/shortcuts/2869ac25e1464ea48a140b876863e1f9" },
+    { name: "💧 Water Eject", desc: "Got your phone wet? Runs a specific sound frequency to push water out of your speakers and microphone before it causes damage. Run it immediately after exposure to water.", device: "iPhone", trigger: "Shortcut", categories: ["Travel", "Other"], link: "https://www.icloud.com/shortcuts/98d530e895dd4b2282a67dba12e5afeb" },
   ];
 
   const shortcutCategories = ["All", "Daily", "Productivity", "Home", "Travel", "Media", "Other"];
@@ -362,7 +364,10 @@
 
     const filtered = activeCategory === "All"
       ? appleShortcuts
-      : appleShortcuts.filter(s => s.category === activeCategory);
+      : appleShortcuts.filter(s => {
+          const cats = s.categories || [s.category];
+          return cats.includes(activeCategory);
+        });
 
     return (
       <div>
@@ -411,7 +416,7 @@
                     ⚡ {s.trigger}
                   </span>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontSize: 10, color: "#3F3F46" }}>{s.category}</span>
+                    <span style={{ fontSize: 10, color: "#3F3F46" }}>{(s.categories || [s.category]).join(" · ")}</span>
                     {s.link && <a href={s.link} target="_blank" rel="noopener noreferrer" style={{ fontSize: 10, fontWeight: 600, color: "#6366F1", background: "#6366F118", border: "1px solid #6366F130", padding: "2px 8px", borderRadius: 99, textDecoration: "none" }}>↓ Get</a>}
                   </div>
                 </div>
